@@ -13,6 +13,7 @@ void printHelp() {
     printf("  help:                         displays this message\n");
     printf("  convert <integer> <format>:\n");
     printf("\tnumber:\tthe integer you wish to see other representations for\n");
+    printf("\tdo not input a negative number\n");
     printf("\tformat:\tthe format of the <integer>\n");
     printf("\tpossible formats are \"bin\", \"oct\", \"dec\", \"hex\"\n");
 }
