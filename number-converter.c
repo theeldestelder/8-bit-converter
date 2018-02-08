@@ -41,10 +41,6 @@ int toBase10(char *num, int base) {
     int len = strlen(num);
     int power = 1;
 
-    //printf("num: %s\n", num);
-    //printf("base: %d\n", base);
-    //printf("len: %d\n", len);
-
     for (int i = len - 1; i >= 0; i--) {
         if (val(num[i]) >= base ) {
             printf("ERROR: character in number exceeds base\n");
@@ -67,6 +63,8 @@ char reVal(int num) {
     }
 }
 
+// reverses a string
+// returns nothing
 void reverseString(char *str) {
     int len = strlen(str);
     for (int i = 0; i < len / 2; i++) {
@@ -76,7 +74,7 @@ void reverseString(char *str) {
     }
 }
 
-// result will be answer backwards
+// converts a number from base 10 to the same number in base base
 char *fromBase10(char result[], int inputNum, int base) {
     int i = 0;
     while (inputNum > 0) {
@@ -178,14 +176,38 @@ void printNum(char num[], int base, int isSigned, int base10Num) {
         }
     }
     else if (base == BASE_10) {
-        
-        if (isSigned == 1) {
-            if (base10Num > 127) { // 127 is max for 1 byte signed int
-                base10Num = (-1) * (base10Num + 1);
-            }
-        }
+        char binaryNum[9];
+        fromBase10(binaryNum, base10Num, BASE_2);   
 
-        printf("%8d", base10Num);
+        //for (int i = 0; i < strlen(binaryNum); i++) {
+            //printf("%c", binaryNum[i]);
+        //}
+
+        if (isSigned && strlen(binaryNum) == 8) {
+            int power = 1;
+            int actual = 0;
+            for (int i = 1; i < strlen(binaryNum); i++) {
+                power = power * BASE_2;
+            }
+
+            //printf("power: %d\n", power);
+            for (int i = 0; i < strlen(binaryNum); i++) {
+                if (i == 0) { // first spot
+                    actual -= power * val(binaryNum[i]);
+                }
+                else {
+                    actual += power * val(binaryNum[i]);
+                }
+                power /= 2;
+
+                //printf("actual: %d\n", actual);
+            }
+
+            printf("%8d", actual);
+        }
+        else {
+            printf("%8d", base10Num);
+        }
     }
 }
 
@@ -195,13 +217,13 @@ void printOutputTable(char *num, char *format) {
     char result[9];
 
     fromBase10(result, base10Num, BASE_2);
-    printf("bin: %s\n", result);
+    //printf("bin: %s\n", result);
     fromBase10(result, base10Num, BASE_8);
-    printf("oct: %s\n", result);
+    //printf("oct: %s\n", result);
     fromBase10(result, base10Num, BASE_10);
-    printf("dec: %s\n", result);
+    //printf("dec: %s\n", result);
     fromBase10(result, base10Num, BASE_16);
-    printf("hex: %s\n", result);
+    //printf("hex: %s\n", result);
 
     printf("  |-----------+------+-------+----------+----------|\n");
     printf("  |           |      |       | Unsigned |  Signed  |\n");
@@ -261,7 +283,7 @@ int main(int argc, char *argv[]) {
             //printf("%s\n", num);
 
             fscanf(stdin, "%s", command); // get the format    
-            printf("%d\n", toBase10(num, inputBase(command)));
+            //printf("%d\n", toBase10(num, inputBase(command)));
 
             //printf("%d\n", inputBase(command));
 
