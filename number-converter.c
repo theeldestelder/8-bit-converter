@@ -17,8 +17,6 @@ void printHelp() {
     printf("\tpossible formats are \"bin\", \"oct\", \"dec\", \"hex\"\n");
 }
 
-
-
 // function slightly modified from
 // www.geeksforgeeks.org/convert-base-decimal-vice-versa/ 
 int val(char c) {
@@ -28,10 +26,6 @@ int val(char c) {
     else { //if (c >= 'A' && c <= 'F') {
         return (int) c - 'A' + 10; // return 10 - 16 depending on character
     }
-    /*else {
-        printf("ERROR: invalid character %c\n", c);
-        return -1; // invalid character
-    }*/
 }
 
 // function slightly modified from
@@ -54,6 +48,10 @@ int toBase10(char *num, int base) {
     return result;
 }
 
+
+// function slightly modified from
+// www.geeksforgeeks.org/convert-base-decimal-vice-versa/ 
+// function takes a number and converts it into a character
 char reVal(int num) {
     if (num >= 0 && num <= 9) {
         return (char) (num + '0');
@@ -63,6 +61,8 @@ char reVal(int num) {
     }
 }
 
+// function slightly modified from
+// www.geeksforgeeks.org/convert-base-decimal-vice-versa/ 
 // reverses a string
 // returns nothing
 void reverseString(char *str) {
@@ -121,7 +121,7 @@ int inputBase(char *format) {
 
 void printNum(char num[], int base, int isSigned, int base10Num) {
     if (base == BASE_2) {
-        int maxSpots = 8; // 1 byte of info
+        int maxSpots = 8; // 1 byte of info in base 2
         int len = strlen(num);
         char fullNum[maxSpots];
 
@@ -167,7 +167,7 @@ void printNum(char num[], int base, int isSigned, int base10Num) {
     else if (base == BASE_16) {
         printf("0x");
         int len = strlen(num);
-        if (len == 1) {
+        if (len == 1) { // prepend leading 0 if number is small enough
             printf("0");
         }
 
@@ -179,28 +179,24 @@ void printNum(char num[], int base, int isSigned, int base10Num) {
         char binaryNum[9];
         fromBase10(binaryNum, base10Num, BASE_2);   
 
-        //for (int i = 0; i < strlen(binaryNum); i++) {
-            //printf("%c", binaryNum[i]);
-        //}
-
         if (isSigned && strlen(binaryNum) == 8) {
             int power = 1;
             int actual = 0;
+
+            // raise power to as high as it needs to be for going from base 2 to base 10
             for (int i = 1; i < strlen(binaryNum); i++) {
                 power = power * BASE_2;
             }
 
-            //printf("power: %d\n", power);
             for (int i = 0; i < strlen(binaryNum); i++) {
-                if (i == 0) { // first spot
+                if (i == 0) { // first spot // means this number is negative
                     actual -= power * val(binaryNum[i]);
                 }
-                else {
+                else { // add on the other positive part of the num becuase two's complement
                     actual += power * val(binaryNum[i]);
                 }
-                power /= 2;
 
-                //printf("actual: %d\n", actual);
+                power /= 2;
             }
 
             printf("%8d", actual);
@@ -215,15 +211,6 @@ void printOutputTable(char *num, char *format) {
     int inputFormat = inputBase(format);
     int base10Num = toBase10(num, inputFormat); 
     char result[9];
-
-    fromBase10(result, base10Num, BASE_2);
-    //printf("bin: %s\n", result);
-    fromBase10(result, base10Num, BASE_8);
-    //printf("oct: %s\n", result);
-    fromBase10(result, base10Num, BASE_10);
-    //printf("dec: %s\n", result);
-    fromBase10(result, base10Num, BASE_16);
-    //printf("hex: %s\n", result);
 
     printf("  |-----------+------+-------+----------+----------|\n");
     printf("  |           |      |       | Unsigned |  Signed  |\n");
@@ -260,8 +247,6 @@ int main(int argc, char *argv[]) {
     char command[128];
     int success = 0;
 
-    //printf("0x0A: %d", atoi("0x0A"));
-
     while(1) {
         printf("converter> ");
         success = fscanf(stdin, "%s", command);
@@ -280,14 +265,8 @@ int main(int argc, char *argv[]) {
             int numLength = strlen(command);
             char num[numLength]; // the char array of the number
             strcpy(num, command);
-            //printf("%s\n", num);
 
             fscanf(stdin, "%s", command); // get the format    
-            //printf("%d\n", toBase10(num, inputBase(command)));
-
-            //printf("%d\n", inputBase(command));
-
-            //fscanf(stdin, "%s", command); // get the format    
             printOutputTable(num, command);
         }
         else { 
