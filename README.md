@@ -9,9 +9,9 @@ negative and `format` is a 3 character string that tells what type of number
 
 Possible formats are:
 `
-    bin
-    oct
-    hex
-    dec
+    - bin  
+    - oct  
+    - hex  
+    - dec  
 `
 
