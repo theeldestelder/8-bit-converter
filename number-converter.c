@@ -22,12 +22,14 @@ void printHelp() {
 // function slightly modified from
 // www.geeksforgeeks.org/convert-base-decimal-vice-versa/ 
 int val(char c) {
+    // convert lowercase to uppercase
     if (c == 'a') {c = 'A';}
     else if (c == 'b') {c = 'B';}
     else if (c == 'c') {c = 'C';}
     else if (c == 'd') {c = 'D';}
     else if (c == 'e') {c = 'E';}
     else if (c == 'f') {c = 'F';}
+
     if (c >= '0' && c <= '9') {
         return (int) c - '0'; // return 0-9 depending on character
     }
