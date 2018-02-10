@@ -8,10 +8,10 @@ negative and `format` is a 3 character string that tells what type of number
 `number` is.       
 
 Possible formats are:
-`
+```
     - bin  
     - oct  
     - hex  
     - dec  
-`
+```
 
