@@ -21,6 +21,8 @@ void printHelp() {
 
 // function slightly modified from
 // www.geeksforgeeks.org/convert-base-decimal-vice-versa/ 
+// takes a character and gets its value
+// 0-9 get values 0-9 while a-f or A-F get values 10-15
 int val(char c) {
     // convert lowercase to uppercase
     if (c == 'a') {c = 'A';}

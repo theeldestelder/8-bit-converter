@@ -1,2 +1,3 @@
-#vim .swp files
+#vim .swp and .swo files
 *.swp
+*.swo
